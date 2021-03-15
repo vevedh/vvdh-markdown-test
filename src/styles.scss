@@ -1,0 +1,8 @@
+// Resets styles with Normalize.css for browser behaviour consistency
+@import '~normalize.css/normalize.css';
+// Imports the standard PrismJS theme
+@import '~prismjs/themes/prism.css';
+// Imports the application specific styles
+@import './theme';
+// Initialize the application theme
+@include init-application-theme();

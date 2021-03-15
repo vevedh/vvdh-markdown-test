@@ -1,0 +1,113 @@
+@import '~@angular/material/theming';
+ 
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$primary: mat-palette($mat-blue);
+$accent:  mat-palette($mat-pink, A200, A100, A400);
+$warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-theme: mat-light-theme($primary, $accent, $warn);
+$app-typography: mat-typography-config();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+
+// Defines an additional mat-link class to decorate links diviating
+// from the strict rules of material design for the sake of clarity
+.mat-link {
+  cursor: pointer;
+  color: mat-color($primary) !important;
+  text-decoration: underline;
+}
+
+// Helper to dig into themes
+@function mat-theme-get($config, $level, $name) {
+  @return map-get(map-get($config, $level), $name);
+}
+
+@mixin init-application-theme() {
+
+  // Includes the core theme indepeneted material style
+  @include mat-core($app-typography);
+
+  // Include all the material theme styles
+  @include angular-material-theme($app-theme);
+
+  .mat-menu-content { padding: 0 !important;}
+  .mat-menu-panel { min-width: unset !important;}
+
+  // Applies material typography rules globally
+  body {
+
+    @extend .mat-typography; 
+
+    // Blockquote style
+    blockquote {
+      margin: 16px 24px;
+      padding: 0 1em;
+      border-left: 3px solid #ccc;
+    }
+
+    // Page break
+    hr {
+      width: 100%;
+      border-top-color: gray;
+    }
+
+    // Apply global link styly
+    a { @extend .mat-link; }
+
+    // Default paragraph align is justified
+    p { text-align: justify; }
+
+    // Inlide code
+    code {
+      padding: 2px 4px;
+      font-size: 90%;
+      color: #c7254e;
+      background-color: #f9f2f4;
+      border-radius: 4px;
+    }
+
+    // Code blocks
+    pre {
+      display: block;
+      padding: 9.5px;
+      margin: 0 0 10px;
+      color: #333;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      word-break: break-all;
+      word-wrap: break-word;
+
+      code {
+        display: block;
+        font-size: inherit;
+        border-radius: 0;
+        background-color: inherit;
+        color: inherit;
+      }
+    }
+
+    // Table style and alignement
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      //margin-bottom: 16px;
+
+      th, td {
+        padding: 6px 13px;
+        border: 1px solid rgba(black, 0.12);
+      }
+
+      tr:nth-child(2n) {
+        background-color: rgba(black, 0.03);
+      }
+    }
+  }
+}

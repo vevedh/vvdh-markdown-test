@@ -1,0 +1,47 @@
+
+<ng-container *ngIf="(document$ | async) as document">
+
+  <!-- Rendered output -->
+  <div class="output">
+
+    <!-- Renders the document body -->
+    <section [wm-markdown]="document" (navigate)="navigate($event)" #output></section>
+
+    <!-- Renders the footnotes -->
+    <ng-container *ngIf="output.notes?.length > 0">
+
+      <mat-divider></mat-divider>
+
+      <section>
+
+        <h4><b>Footnotes:</b></h4>
+        
+        <!-- Renders the markdown branch inlined -->
+        <div *ngFor="let note of output.notes; index as i">
+          {{ i + 1 }} - <span [wm-markdown]="note" inline></span>
+        </div>
+      
+      </section>
+
+    </ng-container>
+
+  </div>
+
+  <!-- Source input -->
+  <textarea *ngIf="editMode" class="input"
+            (input)="editor$.next($event.target.value)"
+            (scroll)="scroll($event.target.scrollTop)">{{ document }}</textarea>
+   
+</ng-container>
+
+<div class="tools" fxLayout="row" fxLayoutGap="10px">
+
+  <!--button mat-fab color="primary">
+    <mat-icon>refresh</mat-icon>
+  </button-->
+
+  <button mat-fab color="primary" (click)="editMode = !editMode">
+    <mat-icon>{{ editMode ? 'done' : 'edit' }}</mat-icon>
+  </button> 
+
+</div>
